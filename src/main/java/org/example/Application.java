@@ -21,6 +21,7 @@ public class Application {
         var statement3 = conn.createStatement();
         var resultSet = statement3.executeQuery(sql3);
         while (resultSet.next()) {
+            System.out.println(resultSet.getString("id"));
             System.out.println(resultSet.getString("username"));
             System.out.println(resultSet.getString("phone"));
         }
