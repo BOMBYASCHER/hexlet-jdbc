@@ -13,13 +13,13 @@ public class Application {
             }
 
             var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789')";
-            try (var statement2 = conn.createStatement()) {
-                statement2.executeUpdate(sql2);
+            try (var statement = conn.createStatement()) {
+                statement.executeUpdate(sql2);
             }
 
             var sql3 = "SELECT * FROM users";
-            try (var statement3 = conn.createStatement()) {
-                var resultSet = statement3.executeQuery(sql3);
+            try (var statement = conn.createStatement()) {
+                var resultSet = statement.executeQuery(sql3);
                 while (resultSet.next()) {
                     System.out.println(resultSet.getString("id"));
                     System.out.println(resultSet.getString("username"));
