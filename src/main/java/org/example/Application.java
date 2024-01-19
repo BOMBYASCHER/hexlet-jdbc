@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.dao.UserDAO;
+import org.example.model.User;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -11,21 +14,18 @@ public class Application {
             try (var statement = conn.createStatement()) {
                 statement.execute(sql);
             }
-
-            var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789')";
-            try (var statement = conn.createStatement()) {
-                statement.executeUpdate(sql2);
-            }
-
-            var sql3 = "SELECT * FROM users";
-            try (var statement = conn.createStatement()) {
-                var resultSet = statement.executeQuery(sql3);
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString("id"));
-                    System.out.println(resultSet.getString("username"));
-                    System.out.println(resultSet.getString("phone"));
-                }
-            }
+            var userDAO = new UserDAO(conn);
+            var user0 = new User("admin", "000000000");
+            var user1 = new User("tommy", "123456789");
+            var user2 = new User("kyle", "987654321");
+            userDAO.save(user0);
+            userDAO.save(user1);
+            userDAO.save(user2);
+            System.out.println("All users:\n" + userDAO.entries());
+            System.out.println("Find admin (id = 1):\n" + userDAO.find(1L));
+            userDAO.delete(user0.getId());
+            System.out.println("Try to find admin after delete (by id = 1):\n" + userDAO.find(1L));
+            System.out.println("All users:\n" + userDAO.entries());
         }
     }
 }
